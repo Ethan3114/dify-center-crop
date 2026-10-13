@@ -9,15 +9,26 @@ description:
     en_US: Crop all four edges equally, retaining the central part. Default 85% of width and height; no scaling or padding.
     zh_Hans: 从四边对称裁掉外缘，默认保留中央宽高各 85%，不缩放、不新增留边。
   llm: >-
-    Use this tool when the user requests inward cropping or retaining the central
-    portion of an image. It crops the configured input images, retaining ratio
+    After image generation succeeds, pass the exact generated image URL as
+    image_url. The tool downloads and center-crops it, retaining ratio
     of both width and height, rounding to whole pixels. Default ratio is 0.85.
     It does not resize the entire image or add borders. It returns PNG files and
     crop metadata. Never call it for adding margins or resizing the whole image.
 parameters:
+  - name: image_url
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Generated image URL
+      zh_Hans: 生图结果 URL
+    human_description:
+      en_US: Public HTTPS image URL; takes precedence over configured uploaded images.
+      zh_Hans: 由 Agent 传入生图工具返回的 HTTPS 图片 URL，优先于上传文件。
+    llm_description: Exact image URL returned by the image generation result tool. Do not invent a URL. Supply this after generation succeeds; ratio=0.85.
   - name: images
     type: files
-    required: true
+    required: false
     form: form
     label:
       en_US: Input images
