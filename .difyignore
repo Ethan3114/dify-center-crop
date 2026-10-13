@@ -5,3 +5,10 @@ __pycache__/
 *.difypkg
 *.zip
 .DS_Store
+.git/
+.gitignore
+.difyignore
+.env.example
+pyproject.toml
+GITHUB_PUBLISH_zh_Hans.md
+RELEASE_NOTES.md

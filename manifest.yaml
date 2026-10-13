@@ -1,8 +1,9 @@
-version: 0.0.3
+version: 0.0.4
 type: plugin
 author: ethan3114
 name: center_crop
 repo: https://github.com/Ethan3114/dify-center-crop
+contact: ethangeng01@gmail.com
 label:
   en_US: Center Crop
   zh_Hans: 等比中心裁切

@@ -1,39 +1,41 @@
 # Center Crop
 
-A Dify tool plugin that retains the central portion of an image. By default it retains 85% of both width and height. It crops existing pixels without resampling, adding a canvas, or calling an external image processing API.
+A Dify tool that crops inward from all four edges, retaining 85% of both image width and height by default. It preserves retained pixels without resizing or adding borders. A 1024 x 1024 input produces an 870 x 870 PNG, removing 77 pixels from each edge.
 
-For a 1024×1024 image, the result is 870×870 with 77 pixels removed from each edge. It supports static PNG, JPEG and WebP, up to 20 MiB and 25 million pixels per image, with up to five input files per call. Width and height are rounded to whole pixels.
+Source: https://github.com/Ethan3114/dify-center-crop
 
-## Installation and Agent setup
+Contact: ethangeng01@gmail.com
 
-In Dify choose Plugins → Install Plugin → From GitHub, enter `https://github.com/Ethan3114/dify-center-crop`, select release `v0.0.3` and the `center_crop-0.0.3.difypkg` asset. Source code alone is not an installable release. See [Dify's GitHub publishing guide](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-to-individual-github-repo).
+## Setup and connection requirements
 
-1. Install from GitHub as above, or download `center_crop-0.0.3.difypkg` from the release and upload it via local-file installation.
-2. In a Chatflow, enable image uploads and add an Agent node.
-3. Add **Center Crop** to the Agent's tools. Bind `images` to `sys.files` or to image files returned by an upstream node. This parameter is explicitly configured, rather than inferred by the LLM.
-4. Set `ratio` manually to `0.85`, or let the Agent infer it from the user's instruction. Do not enter `85`.
-5. Instruct the Agent to call Center Crop for inward cropping requests and return the resulting PNG file. Use the Agent node's file outputs in the Answer node's image/file output configuration.
-6. Upload the example image and verify a 870×870 result with no added margins. Consult the Chinese guide for details.
+No API key, provider credentials, external image-processing server, or model is required for the tool itself. Processing runs inside the Dify plugin runtime. The Dify SDK retrieves bound image files from the file URL supplied by Dify; network access to that file storage must work. No third-party image-processing service is contacted.
 
-The package is unsigned and has not been reviewed by the Dify Marketplace. Acceptance depends on the workspace's installation policy. If upload reports a signature or policy error, remote debugging can be used for temporary testing if available; a reviewed Marketplace release is the permanent distribution path when private installation is disallowed. Do not change self-hosted environment variables on Dify Cloud. A remote debug process must remain running and is not a permanent cloud deployment.
+Install version 0.0.4 from its GitHub release or upload the `.difypkg` through **Integrations > Install > Local package**. After Marketplace approval, it will also be available through Marketplace installation. Submission does not imply approval.
 
-## Development
+## Usage
 
-Requires Python 3.12 and the official Dify Plugin CLI.
+In a Workflow or Chatflow, add the **Center Crop** tool and bind `images` to an uploaded file variable (`sys.files` or a custom array of files) or an upstream node's image files. Set `ratio` to `0.85`, not `85`.
 
-```sh
-pip install -r requirements.txt
-dify plugin package . -o center_crop-0.0.3.difypkg
-```
+For an Agent node, add this tool to its tool list, bind `images` explicitly, and set `ratio` manually or let the Agent infer a retained fraction. The Agent needs its own tool-capable model and strategy. Configure the output node to return the actual tool file output; never rely on the model to invent a download URL.
 
-For optional remote debugging, copy `.env.example` to `.env`, fill in the address and key from Dify's plugin debug dialog, and run `python -m main`. Never include `.env` in a package or send debug keys in a prompt.
+Inputs:
 
-The plugin author identifier is `ethan3114` (lowercase); the GitHub account is `Ethan3114`. If publishing under another account, update it consistently in the manifest, provider and tool YAML files, then rebuild.
+- `images`: 1-5 static PNG, JPEG, or WebP files. Each image must be at most 20 MiB and 25 million pixels.
+- `ratio`: retained width and height fraction from 0.01 to 1; default 0.85. Whole-pixel rounding can introduce a one-pixel difference between opposite edges.
 
-Local validation covers Python 3.12, SDK configuration loading and tool invocation. A live cloud installation and Agent invocation are still required before claiming end-to-end compatibility.
+Outputs:
 
-## References
+- PNG file messages, with transparency retained when present.
+- JSON metadata: `filename`, `width`, `height`, `ratio`, and `operation`.
 
-- [Tool plugins](https://docs.dify.ai/en/develop-plugin/dev-guides-and-walkthroughs/tool-plugin)
-- [File outputs](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/tool)
-- [Distribution methods](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-overview)
+Animated images and unsupported formats are rejected. EXIF orientation is applied before cropping. The tool performs no content recognition and does not guarantee removal of text or watermarks.
+
+## Privacy
+
+Uploaded images, names, dimensions, and crop ratios are processed in memory inside Dify. The plugin does not persist or log image content, request credentials, or send it to an external processing service. Dify controls input and output retention. See [PRIVACY.md](PRIVACY.md).
+
+## Validation
+
+Python 3.12 SDK loading, file message output, and pixel-exact crop checks are verified locally. Cloud testing and Marketplace review status are recorded in the submission PR. Community Edition compatibility has not yet been tested.
+
+Chinese usage documentation: [readme/README_zh_Hans.md](readme/README_zh_Hans.md).
