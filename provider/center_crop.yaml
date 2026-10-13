@@ -1,0 +1,19 @@
+identity:
+  author: Ethan3114
+  name: center_crop
+  label:
+    en_US: Center Crop
+    zh_Hans: 等比中心裁切
+  description:
+    en_US: Center-crop images inside the Dify plugin runtime. No external image processing API.
+    zh_Hans: 在 Dify 插件运行环境中完成中心裁切，无需外部图片处理接口。
+  icon: icon.svg
+  tags:
+    - image
+    - utilities
+credentials_for_provider: {}
+tools:
+  - tools/center_crop.yaml
+extra:
+  python:
+    source: provider/center_crop.py

@@ -1,0 +1,2 @@
+dify-plugin==0.10.2
+Pillow==12.3.0

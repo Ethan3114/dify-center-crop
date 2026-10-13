@@ -1,0 +1,29 @@
+version: 0.0.2
+type: plugin
+author: Ethan3114
+name: center_crop
+repo: https://github.com/Ethan3114/dify-center-crop
+label:
+  en_US: Center Crop
+  zh_Hans: 等比中心裁切
+description:
+  en_US: Crop all four edges to retain the central 85% of image width and height.
+  zh_Hans: 从四边向内裁切，默认保留中央宽高各 85% 的画面。
+icon: icon.svg
+created_at: "2026-10-13T00:00:00Z"
+resource:
+  memory: 536870912
+  permission: {}
+plugins:
+  tools:
+    - provider/center_crop.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+privacy: PRIVACY.md

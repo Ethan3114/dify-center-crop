@@ -1,0 +1,48 @@
+identity:
+  name: center_crop
+  author: Ethan3114
+  label:
+    en_US: Center Crop
+    zh_Hans: 等比中心裁切
+description:
+  human:
+    en_US: Crop all four edges equally, retaining the central part. Default 85% of width and height; no scaling or padding.
+    zh_Hans: 从四边对称裁掉外缘，默认保留中央宽高各 85%，不缩放、不新增留边。
+  llm: >-
+    Use this tool when the user requests inward cropping or retaining the central
+    portion of an image. It crops the configured input images, retaining ratio
+    of both width and height, rounding to whole pixels. Default ratio is 0.85.
+    It does not resize the entire image or add borders. It returns PNG files and
+    crop metadata. Never call it for adding margins or resizing the whole image.
+parameters:
+  - name: images
+    type: files
+    required: true
+    form: form
+    label:
+      en_US: Input images
+      zh_Hans: 输入图片
+    human_description:
+      en_US: Bind uploaded images (sys.files) or image files from an upstream node. Up to five static PNG, JPEG, or WebP images.
+      zh_Hans: 绑定上传图片 sys.files 或上游节点的图片 files；支持最多 5 张静态 PNG、JPEG、WebP。
+    llm_description: Input files are supplied by the application configuration.
+  - name: ratio
+    type: number
+    required: false
+    form: llm
+    default: 0.85
+    min: 0.01
+    max: 1
+    label:
+      en_US: Retained width and height ratio
+      zh_Hans: 保留宽高比例
+    human_description:
+      en_US: Fraction of original width and height to retain. 0.85 means retain 85%, trimming about 7.5% from each edge.
+      zh_Hans: 保留原宽高的比例，0.85 表示保留 85%，每边约裁掉 7.5%。
+    llm_description: >-
+      Fraction of original width and height to retain, between 0.01 and 1.
+      Use 0.85 unless the user specifies another retained percentage.
+      Pass 0.85 for 85%, never 85. This is not the percentage to remove.
+extra:
+  python:
+    source: tools/center_crop.py
