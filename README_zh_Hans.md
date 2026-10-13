@@ -4,11 +4,11 @@
 
 ## 上传安装
 
-在 Dify「安装插件 → 通过 GitHub 安装」输入 `https://github.com/Ethan3114/dify-center-crop`，选择 `v0.0.2` 及 `center_crop-0.0.2.difypkg` 附件安装。详见 [GitHub 发布说明](GITHUB_PUBLISH_zh_Hans.md)。
+在 Dify「安装插件 → 通过 GitHub 安装」输入 `https://github.com/Ethan3114/dify-center-crop`，选择 `v0.0.3` 及 `center_crop-0.0.3.difypkg` 附件安装。详见 [GitHub 发布说明](GITHUB_PUBLISH_zh_Hans.md)。
 
-当前插件作者已改为已连接 GitHub 账户的实际用户名 `Ethan3114`；如果仓库换到其他用户下，必须同步修改 manifest、provider 和 tool YAML 里的作者并重新打包。
+当前插件作者标识为 `ethan3114`（全小写），对应 GitHub 账户 `Ethan3114`；如果仓库换到其他用户下，必须同步修改 manifest、provider 和 tool YAML 里的作者并重新打包。
 
-也可以下载 Release 中的安装包，进入 Dify 云端工作空间的「插件」，选择「安装插件 → 通过本地文件安装」，上传 `center_crop-0.0.2.difypkg`。无需填写第三方 API Key。
+也可以下载 Release 中的安装包，进入 Dify 云端工作空间的「插件」，选择「安装插件 → 通过本地文件安装」，上传 `center_crop-0.0.3.difypkg`。无需填写第三方 API Key。
 
 本包未经过 Marketplace 审核或官方签名，也未在你的云端工作空间实际安装。若工作空间拒绝未签名包，保留错误信息；云端不能修改自部署版的 `.env` 设置。可在提供调试入口的工作空间进行临时远程调试；长期使用需要工作空间允许私有安装，或通过 Marketplace 审核发布。远程调试需要本地进程持续运行，不能代替长期云端部署。
 

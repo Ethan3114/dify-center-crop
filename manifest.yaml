@@ -1,6 +1,6 @@
-version: 0.0.2
+version: 0.0.3
 type: plugin
-author: Ethan3114
+author: ethan3114
 name: center_crop
 repo: https://github.com/Ethan3114/dify-center-crop
 label:

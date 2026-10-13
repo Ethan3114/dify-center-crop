@@ -6,12 +6,12 @@
 
 Dify 支持从个人 GitHub 仓库安装插件，无需先完成 Marketplace 审核。安装器从 GitHub Release 的附件中读取 `.difypkg`，不是从源码目录临时编译插件。
 
-1. 公开仓库为 `https://github.com/Ethan3114/dify-center-crop`。当前包的作者为仓库所属用户 `Ethan3114`。
+1. 公开仓库为 `https://github.com/Ethan3114/dify-center-crop`。当前包的作者标识为 `ethan3114`（运行器要求小写），对应仓库所属用户 `Ethan3114`。
 2. 将本目录的源码放在仓库根目录。包含 manifest、main、provider、tools、crop_image、requirements、pyproject、图标、README 和隐私说明。不要上传原始用户图片、`.env`、调试密钥、虚拟环境或缓存。本目录已提供 `.gitignore`。
-3. `manifest.yaml`、`provider/center_crop.yaml` 和 `tools/center_crop.yaml` 的 `author` 均为 `Ethan3114`。如果更换仓库所属用户，同步修改并重新打包，不能继续使用旧 `.difypkg`。
-4. 在仓库页面选择「Releases → Draft a new release」，创建标签 `v0.0.2`，对应 manifest 版本 `0.0.2`。
-5. 将 `center_crop-0.0.2.difypkg` 上传到该 Release 的 **Assets**，不要只依赖 GitHub 自动生成的 Source code.zip/tar.gz。把 `RELEASE_NOTES.md` 的内容填入说明，然后正式发布 Release。草稿发布不能作为最终验收。
-6. 进入 Dify 云端「插件 → 安装插件 → 通过 GitHub 安装」，输入你的实际仓库 URL，选择 `v0.0.2` 及其 `.difypkg` 附件，查看信息后安装。
+3. `manifest.yaml`、`provider/center_crop.yaml` 和 `tools/center_crop.yaml` 的 `author` 均为 `ethan3114`。如果更换仓库所属用户，同步修改并重新打包，不能继续使用旧 `.difypkg`。
+4. 在仓库页面选择「Releases → Draft a new release」，创建标签 `v0.0.3`，对应 manifest 版本 `0.0.3`。
+5. 将 `center_crop-0.0.3.difypkg` 上传到该 Release 的 **Assets**，不要只依赖 GitHub 自动生成的 Source code.zip/tar.gz。把 `RELEASE_NOTES.md` 的内容填入说明，然后正式发布 Release。草稿发布不能作为最终验收。
+6. 进入 Dify 云端「插件 → 安装插件 → 通过 GitHub 安装」，输入你的实际仓库 URL，选择 `v0.0.3` 及其 `.difypkg` 附件，查看信息后安装。
 
 ### 本地 Git 命令
 
@@ -20,7 +20,7 @@ Dify 支持从个人 GitHub 仓库安装插件，无需先完成 Marketplace 审
 ```sh
 git init
 git add .
-git commit -m "Prepare Center Crop v0.0.2"
+git commit -m "Prepare Center Crop v0.0.3"
 git branch -M main
 git remote add origin https://github.com/Ethan3114/dify-center-crop.git
 git push -u origin main
@@ -33,7 +33,7 @@ git push -u origin main
 在项目目录的上一层运行：
 
 ```sh
-dify plugin package ./center-crop-plugin -o center_crop-0.0.2.difypkg
+dify plugin package ./center-crop-plugin -o center_crop-0.0.3.difypkg
 ```
 
 之后每次更新都要先增加 manifest 和 pyproject 中的项目版本，再重新打包、创建对应标签和 Release、上传新包。不要覆盖旧版本而继续沿用同一个标签。
@@ -42,7 +42,7 @@ dify plugin package ./center-crop-plugin -o center_crop-0.0.2.difypkg
 
 发布和打包检查只能证明格式与发布入口符合要求。以下云端实测全部通过，才可以确认本插件在该工作空间的所选 Agent 中可用：
 
-1. Dify 的 GitHub 安装弹窗能列出 `v0.0.2` 和包文件，且安装完成后插件显示正常。
+1. Dify 的 GitHub 安装弹窗能列出 `v0.0.3` 和包文件，且安装完成后插件显示正常。
 2. 新建测试 Chatflow，启用图片上传，在 Agent 节点添加「等比中心裁切」。`images` 绑定 `sys.files`，`ratio` 设为手动固定 `0.85`。
 3. 上传最初的 1024×1024 原图，输入「将这张图四边向内裁切，保留中央宽高各 85%」。确认运行记录里确实发生工具调用。
 4. 检查工具返回 PNG 文件和 870×870 的尺寸 JSON。下载 PNG，核对尺寸；底部应裁到原图「AI生成」文字上方，四周没有新留边。
